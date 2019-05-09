@@ -9,5 +9,4 @@ public class BetvictorAssignmentApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BetvictorAssignmentApplication.class, args);
 	}
-
 }

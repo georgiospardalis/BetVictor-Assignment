@@ -2,6 +2,7 @@ package com.pardalis.betvictorassignment.dto;
 
 public class CommentDTO {
     private final String email;
+
     private final String commentText;
 
     public CommentDTO(String email, String commentText) {

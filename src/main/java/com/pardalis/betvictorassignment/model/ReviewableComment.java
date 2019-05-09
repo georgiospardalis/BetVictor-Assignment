@@ -1,14 +1,14 @@
 package com.pardalis.betvictorassignment.model;
 
-public final class Comment {
+public class ReviewableComment {
     private final String email;
     private final String commentText;
     private final Long timestamp;
 
-    public Comment(String email, String commentText, Long timestamp) {
+    public ReviewableComment(String email, String commentText) {
         this.email = email;
         this.commentText = commentText;
-        this.timestamp = timestamp;
+        this.timestamp = System.currentTimeMillis();
     }
 
     public String getEmail() {

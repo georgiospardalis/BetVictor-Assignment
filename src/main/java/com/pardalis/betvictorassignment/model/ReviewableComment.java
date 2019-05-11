@@ -1,11 +1,6 @@
 package com.pardalis.betvictorassignment.model;
 
-import org.springframework.data.annotation.Id;
-
 public class ReviewableComment {
-    @Id
-    private String id;
-
     private final String email;
 
     private final String commentText;

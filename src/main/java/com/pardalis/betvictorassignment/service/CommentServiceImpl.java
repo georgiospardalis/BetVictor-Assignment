@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Override
     public List<DisplayableCommentDTO> findAllPersistedComments() {

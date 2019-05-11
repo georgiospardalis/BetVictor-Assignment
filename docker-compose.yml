@@ -1,28 +1,6 @@
 version: '3.7'
 
 services:
-  activemq:
-    image: webcenter/activemq:5.14.3
-    container_name: activemq
-    ports:
-      - "8161:8161"
-      - "61613:61613"
-      - "61616:61616"
-    environment:
-      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
-      ACTIVEMQ_ADMIN_LOGIN: admin
-      ACTIVEMQ_ADMIN_PASSWORD: password
-      ACTIVEMQ_WRITE_LOGIN: write
-      ACTIVEMQ_WRITE_PASSWORD: password
-      ACTIVEMQ_READ_LOGIN: read
-      ACTIVEMQ_READ_PASSWORD: password
-      ACTIVEMQ_JMX_LOGIN: jmx
-      ACTIVEMQ_JMX_PASSWORD: password
-      ACTIVEMQ_STATIC_QUEUES: for_review;accepted
-      ACTIVEMQ_ENABLED_SCHEDULER: "false"
-      ACTIVEMQ_MIN_MEMORY: 512
-      ACTIVEMQ_MAX_MEMORY: 2048
-
   mongodb:
     image: mongo:3.4
     container_name: mongodb

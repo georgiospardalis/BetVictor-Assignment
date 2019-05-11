@@ -8,15 +8,15 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class AppConfig implements WebSocketMessageBrokerConfigurer {
+public class WebConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry messageBrokerRegistry) {
-        messageBrokerRegistry.enableSimpleBroker("");
-        messageBrokerRegistry.setApplicationDestinationPrefixes("");
+        messageBrokerRegistry.enableSimpleBroker("/topic");
+        messageBrokerRegistry.setApplicationDestinationPrefixes("/comment");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("").withSockJS();
+        stompEndpointRegistry.addEndpoint("betvictor-assignment").withSockJS();
     }
 }

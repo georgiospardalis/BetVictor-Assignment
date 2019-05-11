@@ -8,5 +8,5 @@ import java.util.List;
 public interface CommentWebSocket {
     List<DisplayableCommentDTO> onSubscribe();
 
-    String onMessage(CommentDTO commentDTO);
+    void onMessage(CommentDTO commentDTO);
 }

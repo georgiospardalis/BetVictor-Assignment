@@ -1,6 +1,7 @@
 package com.pardalis.betvictorassignment;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.RedeliveryPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -30,8 +31,8 @@ public class JmsConfig {
             DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 
-        configurer.configure(factory, connectionFactory);
         factory.setTransactionManager(transactionManager());
+        configurer.configure(factory, connectionFactory);
 
         return factory;
     }
@@ -60,8 +61,19 @@ public class JmsConfig {
         }
 
         connectionFactory.buildFromProperties(properties);
+        connectionFactory.setRedeliveryPolicy(redeliveryPolicy());
 
         return connectionFactory;
+    }
+
+    @Bean
+    public RedeliveryPolicy redeliveryPolicy() {
+        RedeliveryPolicy redeliveryPolicy = new RedeliveryPolicy();
+
+        redeliveryPolicy.setMaximumRedeliveries(5);
+        redeliveryPolicy.setRedeliveryDelay(1000);
+
+        return redeliveryPolicy;
     }
 
     @Bean

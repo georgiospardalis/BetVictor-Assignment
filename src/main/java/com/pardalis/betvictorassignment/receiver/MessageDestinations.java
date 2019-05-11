@@ -6,6 +6,5 @@ public class MessageDestinations {
     public final static String QUEUE_ACCEPTED = "accepted";
 
     private MessageDestinations() {
-
     }
 }

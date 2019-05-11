@@ -13,7 +13,7 @@ public class PendingCommentReceiver {
     private JmsTemplate jmsTemplate;
 
     @JmsListener(destination = MessageDestinations.QUEUE_FOR_REVIEW)
-    public void onConsume(ReviewableComment reviewableComment) {
+    public void onConsume(ReviewableComment reviewableComment) throws Exception {
         AcceptedComment acceptedComment = reviewComment(reviewableComment);
 
         forwardAcceptedComment(acceptedComment);

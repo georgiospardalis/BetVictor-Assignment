@@ -17,7 +17,7 @@ public class AcceptedCommentReceiver {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @JmsListener(destination = MessageDestinations.QUEUE_ACCEPTED)
-    public void onConsume(AcceptedComment acceptedComment) {
+    public void onConsume(AcceptedComment acceptedComment) throws Exception {
         acceptedComment = commentService.saveAcceptedComment(acceptedComment);
         publishNewComment(acceptedComment);
     }

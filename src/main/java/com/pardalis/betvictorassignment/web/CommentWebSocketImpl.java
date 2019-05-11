@@ -23,6 +23,7 @@ public class CommentWebSocketImpl implements CommentWebSocket {
 
     @Override
     @MessageMapping("/comment")
-    public void onMessage(CommentDTO commentDTO) {
+    public String onMessage(CommentDTO commentDTO) {
+        return null;
     }
 }

@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AcceptedCommentReceiver {
-    @Autowired
     private CommentService commentService;
 
-    @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    public AcceptedCommentReceiver(CommentService commentService, SimpMessagingTemplate simpMessagingTemplate) {
+        this.commentService = commentService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
 
     @JmsListener(destination = MessageDestinations.QUEUE_ACCEPTED, containerFactory = "jmsListenerContainerFactory")
     public void onConsume(AcceptedComment acceptedComment) throws Exception {

@@ -11,8 +11,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-    @Autowired
     private MongoOperations mongoOperations;
+
+    @Autowired
+    public CommentServiceImpl(MongoOperations mongoOperations) {
+        this.mongoOperations = mongoOperations;
+    }
 
     @Override
     public List<DisplayableCommentDTO> findAllPersistedComments() {

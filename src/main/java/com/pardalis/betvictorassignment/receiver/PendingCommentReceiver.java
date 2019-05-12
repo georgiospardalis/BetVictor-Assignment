@@ -9,8 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PendingCommentReceiver {
-    @Autowired
     private JmsTemplate jmsTemplate;
+
+    @Autowired
+    public PendingCommentReceiver(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
 
     @JmsListener(destination = MessageDestinations.QUEUE_FOR_REVIEW, containerFactory = "jmsListenerContainerFactory")
     public void onConsume(ReviewableComment reviewableComment) throws Exception {

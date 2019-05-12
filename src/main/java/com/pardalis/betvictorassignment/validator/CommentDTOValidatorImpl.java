@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 @Component
 public class CommentDTOValidatorImpl implements CommentDTOValidator {
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @Override

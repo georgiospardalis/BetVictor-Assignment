@@ -23,14 +23,20 @@ import java.util.List;
 public class CommentWebSocketImpl implements CommentWebSocket {
     private final static Logger LOGGER = LoggerFactory.getLogger(CommentWebSocketImpl.class);
 
-    @Autowired
-    CommentService commentService;
+    private CommentService commentService;
+
+    private JmsTemplate jmsTemplate;
+
+    private CommentDTOValidator commentDTOValidator;
 
     @Autowired
-    JmsTemplate jmsTemplate;
-
-    @Autowired
-    CommentDTOValidator commentDTOValidator;
+    public CommentWebSocketImpl(CommentService commentService,
+                                JmsTemplate jmsTemplate,
+                                CommentDTOValidator commentDTOValidator) {
+        this.commentService = commentService;
+        this.jmsTemplate = jmsTemplate;
+        this.commentDTOValidator = commentDTOValidator;
+    }
 
     @Override
     @SubscribeMapping("/thread/comments")

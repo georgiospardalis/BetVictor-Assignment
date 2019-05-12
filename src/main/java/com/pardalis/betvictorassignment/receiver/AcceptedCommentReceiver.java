@@ -18,7 +18,7 @@ public class AcceptedCommentReceiver {
 
     @JmsListener(destination = MessageDestinations.QUEUE_ACCEPTED, containerFactory = "jmsListenerContainerFactory")
     public void onConsume(AcceptedComment acceptedComment) throws Exception {
-        acceptedComment = commentService.saveAcceptedComment(acceptedComment);
+        commentService.saveAcceptedComment(acceptedComment);
         publishNewComment(acceptedComment);
     }
 

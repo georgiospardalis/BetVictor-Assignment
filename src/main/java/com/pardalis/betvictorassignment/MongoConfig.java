@@ -20,7 +20,7 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        MongoTemplate mongoTemplate = new MongoTemplate(mongo().getObject(), "");
+        MongoTemplate mongoTemplate = new MongoTemplate(mongo().getObject(), "assignment");
 
         mongoTemplate.setWriteResultChecking(WriteResultChecking.EXCEPTION);
 

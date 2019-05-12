@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.connection.JmsTransactionManager;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Configuration
+@EnableJms
 public class JmsConfig {
     private final static Logger LOGGER = LoggerFactory.getLogger(JmsConfig.class);
 

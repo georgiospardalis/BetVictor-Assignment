@@ -25,7 +25,7 @@ public class AcceptedCommentReceiver {
     private void publishNewComment(AcceptedComment acceptedComment) {
         DisplayableCommentDTO displayableCommentDTO = getDTOForAcceptedComment(acceptedComment);
 
-        simpMessagingTemplate.convertAndSend("", displayableCommentDTO);
+        simpMessagingTemplate.convertAndSend("/thread/comments", displayableCommentDTO);
     }
 
     private DisplayableCommentDTO getDTOForAcceptedComment(AcceptedComment acceptedComment) {

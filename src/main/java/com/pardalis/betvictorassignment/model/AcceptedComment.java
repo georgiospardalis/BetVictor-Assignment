@@ -13,7 +13,21 @@ public final class AcceptedComment extends ReviewableComment {
         this.timestampAccepted = timestampAccepted;
     }
 
+    public AcceptedComment(String email, String commentText, Long timestamp, String id, Long timestampAccepted) {
+        super(email, commentText, timestamp);
+        this.id = id;
+        this.timestampAccepted = timestampAccepted;
+    }
+
     public Long getTimestampAccepted() {
         return timestampAccepted;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

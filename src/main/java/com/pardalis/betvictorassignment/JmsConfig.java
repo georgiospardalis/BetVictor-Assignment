@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Configuration
-@EnableJms
 public class JmsConfig {
     private final static Logger LOGGER = LoggerFactory.getLogger(JmsConfig.class);
 

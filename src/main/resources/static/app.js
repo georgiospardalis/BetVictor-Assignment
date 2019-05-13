@@ -20,6 +20,10 @@ function connect() {
 
         console.log('Connected: ' + frame);
 
+        stompClient.subscribe("/user/thread/error", function (errormsg) {
+            alert(errormsg.body);
+        });
+
         stompClient.subscribe("/thread/comment_action", function (status) {
             $("#commentStatus").text(status.body);
         });

@@ -12,12 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,41 +41,33 @@ public class CommentWebSocketImpl implements CommentWebSocket {
 
     @Override
     @SubscribeMapping("/comments")
-    public List<DisplayableCommentDTO> onSubscribe() {
-        List<DisplayableCommentDTO> displayableCommentDTOs = new ArrayList<>();
-
-        try {
-            displayableCommentDTOs = commentService.findAllPersistedComments();
-        } catch (Exception e) {
-            LOGGER.error("Could not send accepted comments to newly subscribed client", e);
-        }
-
-        return displayableCommentDTOs;
+    public List<DisplayableCommentDTO> onSubscribe() throws Exception {
+        return commentService.findAllPersistedComments();
     }
 
     @Override
     @MessageMapping("/comment")
     @SendToUser("/thread/comment_action")
-    public String onMessage(CommentDTO commentDTO) {
-        String commentAction = CommentAction.COMMENT_NOT_SENT.toString();
+    public String onMessage(CommentDTO commentDTO) throws Exception {
+        commentDTOValidator.validateDTO(commentDTO);
+        jmsTemplate.convertAndSend(MessageDestinations.QUEUE_FOR_REVIEW, new ReviewableComment(
+                commentDTO.getEmail(),
+                commentDTO.getCommentText(),
+                System.currentTimeMillis()
+        ));
 
-        try {
-            commentDTOValidator.validateDTO(commentDTO);
-            jmsTemplate.convertAndSend(MessageDestinations.QUEUE_FOR_REVIEW, new ReviewableComment(
-                    commentDTO.getEmail(),
-                    commentDTO.getCommentText(),
-                    System.currentTimeMillis()
-            ));
+        return CommentAction.COMMENT_FOR_REVIEW.toString();
+    }
 
-            commentAction = CommentAction.COMMENT_FOR_REVIEW.toString();
-        } catch (Exception e) {
-            LOGGER.error("Could not process new comment", e);
+    @MessageExceptionHandler
+    @SendToUser("/thread/error")
+    public String onException(Exception e) {
+        LOGGER.error("Error Handler Triggered", e);
 
-            if (e.getClass().equals(CommentDTOValidationException.class)) {
-                commentAction = e.getMessage();
-            }
+        if (e.getClass().equals(CommentDTOValidationException.class)) {
+            return e.getMessage();
+        } else {
+            return "Unknown internal error";
         }
-
-        return commentAction;
     }
 }

@@ -57,7 +57,7 @@ function sendComment() {
 function showComment(comment) {
     var dt = getDateFromMilliTs(comment["timestamp"]);
 
-    $("#greetings").append("<tr><td>" + dt + " " + comment["email"] + " said:</td><td>" + comment["comment-text"] +"</td></tr>");
+    $("#greetings").append("<tr><td>" + dt + "</td><td>" + comment["email"] + " said:</td><td>" + comment["comment-text"] +"</td></tr>");
 }
 
 function getDateFromMilliTs(milliTs) {

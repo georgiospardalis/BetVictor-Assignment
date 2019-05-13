@@ -18,6 +18,6 @@ public class WebConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("assignment-websocket").withSockJS();
+        stompEndpointRegistry.addEndpoint("/assignment-websocket").withSockJS();
     }
 }

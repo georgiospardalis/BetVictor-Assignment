@@ -20,6 +20,10 @@ public class CommentDTOValidatorImpl implements CommentDTOValidator {
     }
 
     private void validateEmail(String email) throws CommentDTOValidationException {
+        if (email == null || email.equals("")) {
+            throw new CommentDTOValidationException(CommentDTOValidationError.NULL_EMAIL.toString());
+        }
+
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
 
         if (!matcher.find()) {

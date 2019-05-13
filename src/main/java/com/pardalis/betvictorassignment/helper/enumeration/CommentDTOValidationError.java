@@ -2,6 +2,7 @@ package com.pardalis.betvictorassignment.helper.enumeration;
 
 public enum CommentDTOValidationError {
     INVALID_EMAIL("Invalid Email"),
+    NULL_EMAIL("No email provided"),
     NULL_COMMENT("No comment provided");
 
     private final String value;

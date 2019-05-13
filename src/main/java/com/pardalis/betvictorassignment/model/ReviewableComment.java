@@ -1,22 +1,22 @@
 package com.pardalis.betvictorassignment.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ReviewableComment {
     @JsonProperty("email")
-    private final String email;
+    private String email;
 
     @JsonProperty("comment-text")
-    private final String commentText;
+    private String commentText;
 
     @JsonProperty("timestamp")
-    private final Long timestamp;
+    private Long timestamp;
 
-    @JsonCreator
-    public ReviewableComment(@JsonProperty("email") String email,
-                             @JsonProperty("comment-text") String commentText,
-                             @JsonProperty("timestamp") Long timestamp) {
+    public ReviewableComment() {
+
+    }
+
+    public ReviewableComment(String email, String commentText, Long timestamp) {
         this.email = email;
         this.commentText = commentText;
         this.timestamp = timestamp;
@@ -26,11 +26,23 @@ public class ReviewableComment {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getCommentText() {
         return commentText;
     }
 
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
+    }
+
     public Long getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 }

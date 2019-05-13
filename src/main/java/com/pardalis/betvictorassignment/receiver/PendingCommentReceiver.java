@@ -32,10 +32,10 @@ public class PendingCommentReceiver {
 
     private AcceptedComment reviewComment(ReviewableComment reviewableComment) {
         return new AcceptedComment(
+                System.currentTimeMillis(),
                 reviewableComment.getEmail(),
                 reviewableComment.getCommentText(),
-                reviewableComment.getTimestamp(),
-                System.currentTimeMillis());
+                reviewableComment.getTimestamp());
     }
 
     private void forwardAcceptedComment(AcceptedComment acceptedComment) {

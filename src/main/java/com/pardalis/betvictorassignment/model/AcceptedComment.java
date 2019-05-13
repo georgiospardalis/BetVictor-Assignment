@@ -1,6 +1,5 @@
 package com.pardalis.betvictorassignment.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
@@ -9,25 +8,26 @@ public final class AcceptedComment extends ReviewableComment {
     private String id;
 
     @JsonProperty("timestamp-accepted")
-    private final Long timestampAccepted;
+    private Long timestampAccepted;
 
-    @JsonCreator
-    public AcceptedComment(@JsonProperty("email") String email,
-                           @JsonProperty("comment-text") String commentText,
-                           @JsonProperty("timestamp") Long timestamp,
-                           @JsonProperty("timestamp-accepted") Long timestampAccepted) {
-        super(email, commentText, timestamp);
-        this.timestampAccepted = timestampAccepted;
+    public AcceptedComment() {
+
     }
 
-    public AcceptedComment(String id, String email, String commentText, Long timestamp, Long timestampAccepted) {
-        super(email, commentText, timestamp);
+    public AcceptedComment(String id, Long timestampAccepted) {
         this.id = id;
         this.timestampAccepted = timestampAccepted;
     }
 
-    public Long getTimestampAccepted() {
-        return timestampAccepted;
+    public AcceptedComment(Long timestampAccepted, String email, String commentText, Long timestamp) {
+        super(email, commentText, timestamp);
+        this.timestampAccepted = timestampAccepted;
+    }
+
+    public AcceptedComment(String id, Long timestampAccepted, String email, String commentText, Long timestamp) {
+        super(email, commentText, timestamp);
+        this.id = id;
+        this.timestampAccepted = timestampAccepted;
     }
 
     public String getId() {
@@ -36,5 +36,13 @@ public final class AcceptedComment extends ReviewableComment {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Long getTimestampAccepted() {
+        return timestampAccepted;
+    }
+
+    public void setTimestampAccepted(Long timestampAccepted) {
+        this.timestampAccepted = timestampAccepted;
     }
 }

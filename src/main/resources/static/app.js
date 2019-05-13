@@ -17,13 +17,19 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
+
         console.log('Connected: ' + frame);
+
+        stompClient.subscribe("/thread/comment_action", function (status) {
+            $("#commentStatus").text(status.body);
+        });
+
         stompClient.subscribe('/thread/comments', function (comments) {
             var resp = JSON.parse(comments.body);
 
             if (Array.isArray(resp)) {
                 for (var i = 0; i < resp.length; i++) {
-                    showComment(resp[i])
+                    showComment(resp[i]);
                 }
             } else {
                 showComment(resp);
@@ -45,9 +51,17 @@ function sendComment() {
 }
 
 function showComment(comment) {
-    var when = new Date(comment.timestamp)
+    var dt = getDateFromMilliTs(comment["timestamp"]);
 
-    $("#greetings").append("<tr><td>" + when.getDate() + " " + comment.email + " said:</td><td>" + comment.comment-text +"</td></tr>");
+    $("#greetings").append("<tr><td>" + dt + " " + comment["email"] + " said:</td><td>" + comment["comment-text"] +"</td></tr>");
+}
+
+function getDateFromMilliTs(milliTs) {
+    var dateFromTs = new Date(milliTs);
+    var date = dateFromTs.getFullYear() + '-' + (dateFromTs.getMonth()+1) + '-' + dateFromTs.getDate();
+    var time = dateFromTs.getHours() + ":" + dateFromTs.getMinutes() + ":" + dateFromTs.getSeconds();
+
+    return  date + ' ' + time;
 }
 
 $(function () {

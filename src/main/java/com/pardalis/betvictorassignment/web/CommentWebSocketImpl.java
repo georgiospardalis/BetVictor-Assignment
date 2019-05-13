@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
@@ -39,14 +40,14 @@ public class CommentWebSocketImpl implements CommentWebSocket {
     }
 
     @Override
-    @SubscribeMapping("/thread/comments")
+    @SubscribeMapping("/comments")
     public List<DisplayableCommentDTO> onSubscribe() {
         List<DisplayableCommentDTO> displayableCommentDTOs = new ArrayList<>();
 
         try {
             displayableCommentDTOs = commentService.findAllPersistedComments();
         } catch (Exception e) {
-            LOGGER.warn("Could not send accepted comments to newly subscribed client", e);
+            LOGGER.error("Could not send accepted comments to newly subscribed client", e);
         }
 
         return displayableCommentDTOs;
@@ -54,6 +55,7 @@ public class CommentWebSocketImpl implements CommentWebSocket {
 
     @Override
     @MessageMapping("/comment")
+    @SendToUser("/thread/comment_action")
     public String onMessage(CommentDTO commentDTO) {
         String commentAction = CommentAction.COMMENT_NOT_SENT.toString();
 
@@ -67,7 +69,7 @@ public class CommentWebSocketImpl implements CommentWebSocket {
 
             commentAction = CommentAction.COMMENT_FOR_REVIEW.toString();
         } catch (Exception e) {
-            LOGGER.warn("Could not process new comment", e);
+            LOGGER.error("Could not process new comment", e);
 
             if (e.getClass().equals(CommentDTOValidationException.class)) {
                 commentAction = e.getMessage();

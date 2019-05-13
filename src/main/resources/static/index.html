@@ -2,12 +2,10 @@
 <html>
 <head>
     <title>Hello WebSocket</title>
-    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/main.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/app.js"></script>
+    <script src="app.js"></script>
 </head>
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
@@ -28,7 +26,7 @@
         <div class="col-md-6">
             <form class="form">
                 <div class="form-group">
-                    <label for="comment">What is your name?</label>
+                    <label for="comment">Your comment</label>
                     <input type="text" id="comment" class="form-control" placeholder="Your name here...">
                     <div>
                         <label for="mail">Your email</label>
@@ -37,6 +35,9 @@
                 </div>
                 <button id="send" class="btn btn-default" type="submit">Comment</button>
             </form>
+            <div>
+                <label id="commentStatus"></label>
+            </div>
         </div>
     </div>
     <p>

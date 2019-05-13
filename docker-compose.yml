@@ -6,3 +6,26 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
+
+  activemq:
+    image: webcenter/activemq:5.14.3
+    container_name: activemq
+    ports:
+      - "61616:61616"
+      - "61613:61613"
+      - "8161:8161"
+    environment:
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "false"
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+      ACTIVEMQ_WRITE_LOGIN: write
+      ACTIVEMQ_WRITE_PASSWORD: admin
+      ACTIVEMQ_READ_LOGIN: read
+      ACTIVEMQ_READ_PASSWORD: admin
+      ACTIVEMQ_JMX_LOGIN: jmx
+      ACTIVEMQ_JMX_PASSWORD: admin
+      ACTIVEMQ_STATIC_TOPICS:
+      ACTIVEMQ_STATIC_QUEUES: accepted; for_review
+      ACTIVEMQ_ENABLED_SCHEDULER: "true"
+      ACTIVEMQ_MIN_MEMORY: 512
+      ACTIVEMQ_MAX_MEMORY: 2048

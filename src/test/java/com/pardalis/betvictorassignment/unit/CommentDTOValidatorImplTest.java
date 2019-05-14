@@ -7,7 +7,10 @@ import com.pardalis.betvictorassignment.validator.CommentDTOValidator;
 import com.pardalis.betvictorassignment.validator.CommentDTOValidatorImpl;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CommentDTOValidatorImplTest {
     private final CommentDTOValidator commentDTOValidator = new CommentDTOValidatorImpl();
 

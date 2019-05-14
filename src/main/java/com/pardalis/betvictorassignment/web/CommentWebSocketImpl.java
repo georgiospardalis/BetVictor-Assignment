@@ -48,7 +48,7 @@ public class CommentWebSocketImpl implements CommentWebSocket {
     @Override
     @MessageMapping("/comment")
     @SendToUser("/thread/comment_action")
-    public String onMessage(CommentDTO commentDTO) throws Exception {
+    public String onMessage(CommentDTO commentDTO) throws RuntimeException {
         commentDTOValidator.validateDTO(commentDTO);
 
         return commentService.sendCommentForReview(commentDTO);

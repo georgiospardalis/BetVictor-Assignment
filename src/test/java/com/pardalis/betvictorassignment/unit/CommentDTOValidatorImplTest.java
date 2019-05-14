@@ -28,7 +28,7 @@ public class CommentDTOValidatorImplTest {
         try {
             commentDTOValidator.validateDTO(malformedDTO);
         } catch (CommentDTOValidationException e) {
-            Assert.assertEquals(e.getMessage(), CommentDTOValidationError.NULL_EMAIL.toString());
+            Assert.assertEquals(CommentDTOValidationError.NULL_EMAIL.toString(), e.getMessage());
         }
     }
 
@@ -39,7 +39,7 @@ public class CommentDTOValidatorImplTest {
         try {
             commentDTOValidator.validateDTO(malformedDTO);
         } catch (CommentDTOValidationException e) {
-            Assert.assertEquals(e.getMessage(), CommentDTOValidationError.NULL_EMAIL.toString());
+            Assert.assertEquals(CommentDTOValidationError.NULL_EMAIL.toString(), e.getMessage());
         }
     }
 
@@ -50,7 +50,7 @@ public class CommentDTOValidatorImplTest {
         try {
             commentDTOValidator.validateDTO(malformedDTO);
         } catch (CommentDTOValidationException e) {
-            Assert.assertEquals(e.getMessage(), CommentDTOValidationError.INVALID_EMAIL.toString());
+            Assert.assertEquals(CommentDTOValidationError.INVALID_EMAIL.toString(), e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class CommentDTOValidatorImplTest {
         try {
             commentDTOValidator.validateDTO(malformedDTO);
         } catch (CommentDTOValidationException e) {
-            Assert.assertEquals(e.getMessage(), CommentDTOValidationError.NULL_COMMENT.toString());
+            Assert.assertEquals(CommentDTOValidationError.NULL_COMMENT.toString(), e.getMessage());
         }
     }
 }

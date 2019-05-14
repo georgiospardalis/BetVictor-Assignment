@@ -45,10 +45,10 @@ public class CommentWebSocketImplTest {
 
         List<DisplayableCommentDTO> finalList = commentServiceImpl.findAllPersistedComments();
 
-        Assert.assertEquals(finalList.size(), 1);
-        Assert.assertEquals(finalList.get(0).getEmail(), "email@mail.com");
-        Assert.assertEquals(finalList.get(0).getCommentText(), "ignore me");
-        Assert.assertEquals(finalList.get(0).getTimestamp(), new Long("1234567890123"));
+        Assert.assertEquals(1, finalList.size());
+        Assert.assertEquals("email@mail.com", finalList.get(0).getEmail());
+        Assert.assertEquals("ignore me", finalList.get(0).getCommentText());
+        Assert.assertEquals(new Long("1234567890123"), finalList.get(0).getTimestamp());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class CommentWebSocketImplTest {
 
         List<DisplayableCommentDTO> returnedList = commentWebSocketImpl.onSubscribe();
 
-        Assert.assertEquals(returnedList.size(), 0);
+        Assert.assertEquals(0, returnedList.size());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class CommentWebSocketImplTest {
         }
 
         Assert.assertNotNull(msg);
-        Assert.assertEquals(msg, CommentAction.COMMENT_FOR_REVIEW.toString());
+        Assert.assertEquals(CommentAction.COMMENT_FOR_REVIEW.toString(), msg);
         verify(commentDTOValidatorImpl, times(1)).validateDTO(any(CommentDTO.class));
         verify(commentServiceImpl, times(1)).sendCommentForReview(any(CommentDTO.class));
     }

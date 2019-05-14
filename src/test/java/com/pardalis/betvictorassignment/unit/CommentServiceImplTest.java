@@ -40,7 +40,7 @@ public class CommentServiceImplTest {
 
         List<DisplayableCommentDTO> returnedDisplayableComments = commentServiceImpl.findAllPersistedComments();
 
-        Assert.assertEquals(returnedDisplayableComments.size(), 0);
+        Assert.assertEquals(0, returnedDisplayableComments.size());
     }
 
     @Test
@@ -64,10 +64,10 @@ public class CommentServiceImplTest {
 
         List<DisplayableCommentDTO> returnedDisplayableComments = commentServiceImpl.findAllPersistedComments();
 
-        Assert.assertEquals(returnedDisplayableComments.size(), 1);
-        Assert.assertEquals(returnedDisplayableComments.get(0).getTimestamp(), expectedDTO.getTimestamp());
-        Assert.assertEquals(returnedDisplayableComments.get(0).getCommentText(), expectedDTO.getCommentText());
-        Assert.assertEquals(returnedDisplayableComments.get(0).getEmail(), expectedDTO.getEmail());
+        Assert.assertEquals(1, returnedDisplayableComments.size());
+        Assert.assertEquals(expectedDTO.getTimestamp(), returnedDisplayableComments.get(0).getTimestamp());
+        Assert.assertEquals(expectedDTO.getCommentText(), returnedDisplayableComments.get(0).getCommentText());
+        Assert.assertEquals(expectedDTO.getEmail(), returnedDisplayableComments.get(0).getEmail());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class CommentServiceImplTest {
 
         String msg = commentServiceImpl.sendCommentForReview(commentDTO);
 
-        Assert.assertEquals(msg, CommentAction.COMMENT_FOR_REVIEW.toString());
+        Assert.assertEquals(CommentAction.COMMENT_FOR_REVIEW.toString(), msg);
         verify(jmsTemplate, times(1)).convertAndSend(any(String.class), any(ReviewableComment.class));
     }
 

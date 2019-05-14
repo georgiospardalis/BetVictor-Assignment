@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.support.destination.DestinationResolutionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,10 +87,11 @@ public class CommentServiceImplTest {
     public void sendCommentForReview_exception() {
         CommentDTO commentDTO = new CommentDTO("mail@mail.com", "ignore me");
 
-        doThrow(new JmsException("") {}).when(jmsTemplate).convertAndSend(any(String.class), any(CommentDTO.class));
+        doThrow(new DestinationResolutionException("")).when(jmsTemplate).convertAndSend(any(String.class), any(ReviewableComment.class));
 
         try {
-            String msg = commentServiceImpl.sendCommentForReview(commentDTO);
+            commentServiceImpl.sendCommentForReview(commentDTO);
+            Assert.fail();
         } catch (JmsException e) {
 
         }
@@ -99,11 +101,36 @@ public class CommentServiceImplTest {
 
     @Test
     public void saveAcceptedComment_success() {
+        AcceptedComment acceptedComment = new AcceptedComment(
+                new Long("1234567890123"),
+                "email@mail.com",
+                "ignore me",
+                new Long("1234567890123"));
 
+        when(mongoOperations.save(any(AcceptedComment.class), eq("accepted_comments"))).thenReturn(acceptedComment);
+
+        commentServiceImpl.saveAcceptedComment(acceptedComment);
+
+        verify(mongoOperations, times(1)).save(any(AcceptedComment.class), any(String.class));
     }
 
     @Test
     public void saveAcceptedComment_exception() {
+        AcceptedComment acceptedComment = new AcceptedComment(
+                new Long("1234567890123"),
+                "email@mail.com",
+                "ignore me",
+                new Long("1234567890123"));
 
+        doThrow(new RuntimeException()).when(mongoOperations).save(any(AcceptedComment.class), eq("accepted_comments"));
+
+        try {
+            commentServiceImpl.saveAcceptedComment(acceptedComment);
+            Assert.fail();
+        } catch (Exception e) {
+
+        }
+
+        verify(mongoOperations, times(1)).save(any(AcceptedComment.class), any(String.class));
     }
 }

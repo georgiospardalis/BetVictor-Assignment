@@ -1,4 +1,4 @@
-package com.pardalis.betvictorassignment;
+package com.pardalis.betvictorassignment.unit;
 
 import com.pardalis.betvictorassignment.dto.CommentDTO;
 import com.pardalis.betvictorassignment.helper.enumeration.CommentDTOValidationError;

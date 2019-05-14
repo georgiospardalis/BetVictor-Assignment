@@ -6,7 +6,7 @@ import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
 import java.util.List;
 
 public interface CommentWebSocket {
-    List<DisplayableCommentDTO> onSubscribe() throws Exception;
+    List<DisplayableCommentDTO> onSubscribe();
 
     String onMessage(CommentDTO commentDTO) throws Exception;
 

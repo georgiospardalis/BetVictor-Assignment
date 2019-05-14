@@ -1,9 +1,14 @@
 package com.pardalis.betvictorassignment.service;
 
+import com.pardalis.betvictorassignment.dto.CommentDTO;
 import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.helper.enumeration.CommentAction;
 import com.pardalis.betvictorassignment.model.AcceptedComment;
+import com.pardalis.betvictorassignment.model.ReviewableComment;
+import com.pardalis.betvictorassignment.receiver.MessageDestinations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +18,12 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
     private MongoOperations mongoOperations;
 
+    private JmsTemplate jmsTemplate;
+
     @Autowired
-    public CommentServiceImpl(MongoOperations mongoOperations) {
+    public CommentServiceImpl(MongoOperations mongoOperations, JmsTemplate jmsTemplate) {
         this.mongoOperations = mongoOperations;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Override
@@ -29,6 +37,17 @@ public class CommentServiceImpl implements CommentService {
                         ac.getTimestamp()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String sendCommentForReview(CommentDTO commentDTO) {
+        jmsTemplate.convertAndSend(MessageDestinations.QUEUE_FOR_REVIEW, new ReviewableComment(
+                commentDTO.getEmail(),
+                commentDTO.getCommentText(),
+                System.currentTimeMillis()
+        ));
+
+        return CommentAction.COMMENT_FOR_REVIEW.toString();
     }
 
     @Override

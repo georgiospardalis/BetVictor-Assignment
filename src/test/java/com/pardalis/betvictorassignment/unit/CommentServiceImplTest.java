@@ -1,7 +1,10 @@
 package com.pardalis.betvictorassignment.unit;
 
+import com.pardalis.betvictorassignment.dto.CommentDTO;
 import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.helper.enumeration.CommentAction;
 import com.pardalis.betvictorassignment.model.AcceptedComment;
+import com.pardalis.betvictorassignment.model.ReviewableComment;
 import com.pardalis.betvictorassignment.service.CommentServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,16 +13,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.jms.JmsException;
+import org.springframework.jms.core.JmsTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommentServiceImplTest {
     @Mock
     private MongoOperations mongoOperations;
+
+    @Mock
+    private JmsTemplate jmsTemplate;
 
     @InjectMocks
     private CommentServiceImpl commentServiceImpl;
@@ -59,5 +68,42 @@ public class CommentServiceImplTest {
         Assert.assertEquals(returnedDisplayableComments.get(0).getTimestamp(), expectedDTO.getTimestamp());
         Assert.assertEquals(returnedDisplayableComments.get(0).getCommentText(), expectedDTO.getCommentText());
         Assert.assertEquals(returnedDisplayableComments.get(0).getEmail(), expectedDTO.getEmail());
+    }
+
+    @Test
+    public void sendCommentForReview_success() {
+        CommentDTO commentDTO = new CommentDTO("mail@mail.com", "ignore me");
+
+        doNothing().when(jmsTemplate).convertAndSend(any(String.class), any(CommentDTO.class));
+
+        String msg = commentServiceImpl.sendCommentForReview(commentDTO);
+
+        Assert.assertEquals(msg, CommentAction.COMMENT_FOR_REVIEW.toString());
+        verify(jmsTemplate, times(1)).convertAndSend(any(String.class), any(ReviewableComment.class));
+    }
+
+    @Test
+    public void sendCommentForReview_exception() {
+        CommentDTO commentDTO = new CommentDTO("mail@mail.com", "ignore me");
+
+        doThrow(new JmsException("") {}).when(jmsTemplate).convertAndSend(any(String.class), any(CommentDTO.class));
+
+        try {
+            String msg = commentServiceImpl.sendCommentForReview(commentDTO);
+        } catch (JmsException e) {
+
+        }
+
+        verify(jmsTemplate, times(1)).convertAndSend(any(String.class), any(ReviewableComment.class));
+    }
+
+    @Test
+    public void saveAcceptedComment_success() {
+
+    }
+
+    @Test
+    public void saveAcceptedComment_exception() {
+
     }
 }

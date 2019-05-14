@@ -41,7 +41,7 @@ public class CommentWebSocketImpl implements CommentWebSocket {
 
     @Override
     @SubscribeMapping("/comments")
-    public List<DisplayableCommentDTO> onSubscribe() throws Exception {
+    public List<DisplayableCommentDTO> onSubscribe() {
         return commentService.findAllPersistedComments();
     }
 
@@ -50,13 +50,8 @@ public class CommentWebSocketImpl implements CommentWebSocket {
     @SendToUser("/thread/comment_action")
     public String onMessage(CommentDTO commentDTO) throws Exception {
         commentDTOValidator.validateDTO(commentDTO);
-        jmsTemplate.convertAndSend(MessageDestinations.QUEUE_FOR_REVIEW, new ReviewableComment(
-                commentDTO.getEmail(),
-                commentDTO.getCommentText(),
-                System.currentTimeMillis()
-        ));
 
-        return CommentAction.COMMENT_FOR_REVIEW.toString();
+        return commentService.sendCommentForReview(commentDTO);
     }
 
     @MessageExceptionHandler

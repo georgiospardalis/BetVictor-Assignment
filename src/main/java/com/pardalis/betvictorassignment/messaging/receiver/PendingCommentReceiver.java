@@ -1,7 +1,8 @@
-package com.pardalis.betvictorassignment.receiver;
+package com.pardalis.betvictorassignment.messaging.receiver;
 
-import com.pardalis.betvictorassignment.model.AcceptedComment;
-import com.pardalis.betvictorassignment.model.ReviewableComment;
+import com.pardalis.betvictorassignment.messaging.MessageDestinations;
+import com.pardalis.betvictorassignment.messaging.model.AcceptedComment;
+import com.pardalis.betvictorassignment.messaging.model.ReviewableComment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,18 @@ public class PendingCommentReceiver {
 
     @JmsListener(destination = MessageDestinations.QUEUE_FOR_REVIEW, containerFactory = "jmsListenerContainerFactory")
     public void onConsume(ReviewableComment reviewableComment) throws Exception {
-        LOGGER.info("Consumed new message on queue " + MessageDestinations.QUEUE_FOR_REVIEW);
+        LOGGER.info("Consumed from queue "
+                + MessageDestinations.QUEUE_FOR_REVIEW
+                + ", message:"
+                + reviewableComment.toString());
 
         AcceptedComment acceptedComment = reviewComment(reviewableComment);
         forwardAcceptedComment(acceptedComment);
 
-        LOGGER.info("Produced new message on queue " + MessageDestinations.QUEUE_ACCEPTED);
+        LOGGER.info("Produced on queue "
+                + MessageDestinations.QUEUE_ACCEPTED
+                + ", message:"
+                + acceptedComment.toString());
     }
 
     private AcceptedComment reviewComment(ReviewableComment reviewableComment) {

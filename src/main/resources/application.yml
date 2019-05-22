@@ -1,0 +1,45 @@
+spring:
+  jms:
+    listener:
+      acknowledge-mode: client
+      auto-startup: true
+      concurrency: 1
+      max-concurrency: 10
+
+    pub-sub-domain: false
+
+    template:
+      default-destination: empty
+      delivery-mode: non_persistent
+      priority: 100
+      qos-enabled: true
+      receive-timeout: 1000
+      time-to-live: 36000
+
+  activemq:
+    user: admin
+    password: admin
+    close-timeout: 15000
+    send-timeout: 0
+    in-memory: true
+    non-blocking-redelivery: true
+
+    packages:
+      trust-all: false
+      trusted: com.pardalis.betvictorassignment
+
+    pool:
+      block-if-full: true
+      block-if-full-timeout: -1
+      enabled: false
+      idle-timeout: 30000
+      max-connections: 1
+      max-sessions-per-connection: 1000
+      time-between-expiration-check: -1
+      use-anonymous-producers: true
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: demo_app

@@ -1,7 +1,7 @@
-# BetVictor-Assignment
+# Comments-Thread App
 
 ## Description
-This is an assignment for the BetVictor Backend Software Engineer Position.
+This is a demo app for a comments thread using push and messaging technologies
 
 ## Testing and Getting a Jar
 In order to get a tested (unit && integration) `jar`, all you have to do is execute:

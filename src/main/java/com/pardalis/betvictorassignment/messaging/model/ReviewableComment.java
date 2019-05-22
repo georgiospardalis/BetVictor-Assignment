@@ -1,4 +1,4 @@
-package com.pardalis.betvictorassignment.model;
+package com.pardalis.betvictorassignment.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,5 +44,14 @@ public class ReviewableComment {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "ReviewableComment: {\n"
+                + "email: " + email + "\n"
+                + "comment:" + commentText + "\n"
+                + "timestamp:" + timestamp + "\n"
+                + "}";
     }
 }

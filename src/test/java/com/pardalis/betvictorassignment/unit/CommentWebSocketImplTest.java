@@ -1,12 +1,10 @@
 package com.pardalis.betvictorassignment.unit;
 
-import com.pardalis.betvictorassignment.dto.CommentDTO;
-import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.web.dto.CommentDTO;
+import com.pardalis.betvictorassignment.web.dto.DisplayableCommentDTO;
 import com.pardalis.betvictorassignment.helper.enumeration.CommentAction;
-import com.pardalis.betvictorassignment.helper.exception.CommentDTOValidationException;
 import com.pardalis.betvictorassignment.service.CommentServiceImpl;
-import com.pardalis.betvictorassignment.validator.CommentDTOValidatorImpl;
-import com.pardalis.betvictorassignment.web.CommentWebSocketImpl;
+import com.pardalis.betvictorassignment.web.socket.CommentWebSocketImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +22,6 @@ import static org.mockito.Mockito.*;
 public class CommentWebSocketImplTest {
     @Mock
     private CommentServiceImpl commentServiceImpl;
-
-    @Mock
-    private CommentDTOValidatorImpl commentDTOValidatorImpl;
 
     @InjectMocks
     private CommentWebSocketImpl commentWebSocketImpl;
@@ -62,7 +57,6 @@ public class CommentWebSocketImplTest {
 
     @Test
     public void sendCommentSuccessfull() {
-        doNothing().when(commentDTOValidatorImpl).validateDTO(any(CommentDTO.class));
         when(commentServiceImpl.sendCommentForReview(any(CommentDTO.class))).thenReturn(CommentAction.COMMENT_FOR_REVIEW.toString());
 
         String msg = null;
@@ -75,13 +69,11 @@ public class CommentWebSocketImplTest {
 
         Assert.assertNotNull(msg);
         Assert.assertEquals(CommentAction.COMMENT_FOR_REVIEW.toString(), msg);
-        verify(commentDTOValidatorImpl, times(1)).validateDTO(any(CommentDTO.class));
         verify(commentServiceImpl, times(1)).sendCommentForReview(any(CommentDTO.class));
     }
 
     @Test
     public void sendCommentFailedJms() {
-        doNothing().when(commentDTOValidatorImpl).validateDTO(any(CommentDTO.class));
         doThrow(new DestinationResolutionException("")).when(commentServiceImpl).sendCommentForReview(any(CommentDTO.class));
 
         try {
@@ -91,22 +83,17 @@ public class CommentWebSocketImplTest {
 
         }
 
-        verify(commentDTOValidatorImpl, times(1)).validateDTO(any(CommentDTO.class));
         verify(commentServiceImpl, times(1)).sendCommentForReview(any(CommentDTO.class));
     }
 
     @Test
     public void sendCommentFailedValidation() {
-        doThrow(new CommentDTOValidationException("")).when(commentDTOValidatorImpl).validateDTO(any(CommentDTO.class));
-
         try {
             commentWebSocketImpl.onMessage(new CommentDTO("", ""));
             Assert.fail();
         } catch (Exception e) {
 
         }
-
-        verify(commentDTOValidatorImpl, times(1)).validateDTO(any(CommentDTO.class));
         verify(commentServiceImpl, times(0)).sendCommentForReview(any(CommentDTO.class));
     }
 }

@@ -1,4 +1,4 @@
-package com.pardalis.betvictorassignment.dto;
+package com.pardalis.betvictorassignment.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

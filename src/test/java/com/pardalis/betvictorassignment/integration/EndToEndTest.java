@@ -2,9 +2,9 @@ package com.pardalis.betvictorassignment.integration;
 
 import com.palantir.docker.compose.DockerComposeRule;
 import com.palantir.docker.compose.connection.waiting.HealthChecks;
-import com.pardalis.betvictorassignment.dto.CommentDTO;
-import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
-import com.pardalis.betvictorassignment.model.AcceptedComment;
+import com.pardalis.betvictorassignment.web.dto.CommentDTO;
+import com.pardalis.betvictorassignment.web.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.messaging.model.AcceptedComment;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

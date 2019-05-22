@@ -1,7 +1,8 @@
-package com.pardalis.betvictorassignment.receiver;
+package com.pardalis.betvictorassignment.messaging.receiver;
 
-import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
-import com.pardalis.betvictorassignment.model.AcceptedComment;
+import com.pardalis.betvictorassignment.web.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.messaging.MessageDestinations;
+import com.pardalis.betvictorassignment.messaging.model.AcceptedComment;
 import com.pardalis.betvictorassignment.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +27,15 @@ public class AcceptedCommentReceiver {
 
     @JmsListener(destination = MessageDestinations.QUEUE_ACCEPTED, containerFactory = "jmsListenerContainerFactory")
     public void onConsume(AcceptedComment acceptedComment) throws Exception {
-        LOGGER.info("Consumed new message on queue " + MessageDestinations.QUEUE_ACCEPTED);
+        LOGGER.info("Consumed new message on queue "
+                + MessageDestinations.QUEUE_ACCEPTED
+                + ", message:"
+                + acceptedComment.toString());
 
         commentService.saveAcceptedComment(acceptedComment);
         publishNewComment(acceptedComment);
 
-        LOGGER.info("Published new message on websockbroker " + "'/thread/comments'");
+        LOGGER.info("Published on websocket broker '/thread/comments', message:" + acceptedComment.toString());
     }
 
     private void publishNewComment(AcceptedComment acceptedComment) {

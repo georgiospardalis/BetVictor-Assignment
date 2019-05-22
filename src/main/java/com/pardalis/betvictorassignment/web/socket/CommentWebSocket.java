@@ -1,7 +1,7 @@
-package com.pardalis.betvictorassignment.web;
+package com.pardalis.betvictorassignment.web.socket;
 
-import com.pardalis.betvictorassignment.dto.CommentDTO;
-import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.web.dto.CommentDTO;
+import com.pardalis.betvictorassignment.web.dto.DisplayableCommentDTO;
 
 import java.util.List;
 

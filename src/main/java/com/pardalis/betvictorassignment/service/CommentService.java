@@ -1,8 +1,8 @@
 package com.pardalis.betvictorassignment.service;
 
-import com.pardalis.betvictorassignment.dto.CommentDTO;
-import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
-import com.pardalis.betvictorassignment.model.AcceptedComment;
+import com.pardalis.betvictorassignment.web.dto.CommentDTO;
+import com.pardalis.betvictorassignment.web.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.messaging.model.AcceptedComment;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package com.pardalis.betvictorassignment.unit;
 
-import com.pardalis.betvictorassignment.dto.CommentDTO;
-import com.pardalis.betvictorassignment.dto.DisplayableCommentDTO;
+import com.pardalis.betvictorassignment.web.dto.CommentDTO;
+import com.pardalis.betvictorassignment.web.dto.DisplayableCommentDTO;
 import com.pardalis.betvictorassignment.helper.enumeration.CommentAction;
-import com.pardalis.betvictorassignment.model.AcceptedComment;
-import com.pardalis.betvictorassignment.model.ReviewableComment;
+import com.pardalis.betvictorassignment.messaging.model.AcceptedComment;
+import com.pardalis.betvictorassignment.messaging.model.ReviewableComment;
 import com.pardalis.betvictorassignment.service.CommentServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;

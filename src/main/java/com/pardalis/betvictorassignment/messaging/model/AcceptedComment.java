@@ -1,4 +1,4 @@
-package com.pardalis.betvictorassignment.model;
+package com.pardalis.betvictorassignment.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
@@ -44,5 +44,15 @@ public final class AcceptedComment extends ReviewableComment {
 
     public void setTimestampAccepted(Long timestampAccepted) {
         this.timestampAccepted = timestampAccepted;
+    }
+
+    @Override
+    public String toString() {
+        return "AcceptedComment: {\n"
+                + "email: " + getEmail() + "\n"
+                + "comment:" + getCommentText() + "\n"
+                + "timestamp:" + getTimestamp() + "\n"
+                + "acceptedTimestamp:" + timestampAccepted + "\n"
+                + "}";
     }
 }

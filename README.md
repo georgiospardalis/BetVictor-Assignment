@@ -11,7 +11,7 @@ purposes.
 ## Running the App
 Before executing `java -jar ...` on the created jar, make sure you provide the required environment.
 Do so by running `docker-compose up -d` while in the root directory of the project. Wait for the containers to get ready,
-and then execute `java -jar ./target/demo_app_websock_jms-0.0.1-SNAPSHOT.jar` to start the app.
+and then execute `java -jar ./target/comments_thread-0.0.1-SNAPSHOT.jar` to start the app.
 
 To start "chatting", fire up your browser and connect to `http://localhost:8080/index.html`.
 

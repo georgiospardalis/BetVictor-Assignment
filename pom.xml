@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>com.pardalis</groupId>
-	<artifactId>demo_app_websock_jms</artifactId>
+	<artifactId>comments_thread</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Demo App</name>
 	<description>Demo App with Push and Messaging technologies</description>

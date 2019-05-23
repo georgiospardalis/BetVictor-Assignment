@@ -2,8 +2,6 @@ package com.pardalis.betvictorassignment;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.RedeliveryPolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,15 +14,16 @@ import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.annotation.Resource;
 import javax.jms.ConnectionFactory;
 import javax.jms.QueueConnectionFactory;
-import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
 @EnableJms
 public class JmsConfig {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JmsConfig.class);
+    @Resource
+    private Properties properties;
 
     @Bean
     public JmsListenerContainerFactory<?> jmsListenerContainerFactory(
@@ -50,15 +49,6 @@ public class JmsConfig {
     @Bean
     public QueueConnectionFactory jmsConnectionFactory() {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        Properties properties = new Properties();
-
-        try {
-            properties.load(this.getClass().getClassLoader().getResourceAsStream("application.properties"));
-        } catch (IOException e) {
-            LOGGER.error("Failed to read properties file for activemq jms connection", e);
-
-            System.exit(1);
-        }
 
         connectionFactory.buildFromProperties(properties);
         connectionFactory.setRedeliveryPolicy(redeliveryPolicy());

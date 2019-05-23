@@ -85,15 +85,4 @@ public class CommentWebSocketImplTest {
 
         verify(commentServiceImpl, times(1)).sendCommentForReview(any(CommentDTO.class));
     }
-
-    @Test
-    public void sendCommentFailedValidation() {
-        try {
-            commentWebSocketImpl.onMessage(new CommentDTO("", ""));
-            Assert.fail();
-        } catch (Exception e) {
-
-        }
-        verify(commentServiceImpl, times(0)).sendCommentForReview(any(CommentDTO.class));
-    }
 }

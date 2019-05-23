@@ -10,10 +10,10 @@
 	</parent>
 
 	<groupId>com.pardalis</groupId>
-	<artifactId>betvictor-assignment</artifactId>
+	<artifactId>demo_app_websock_jms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>betvictor-assignment</name>
-	<description>Assignment for BetVictor</description>
+	<name>Demo App</name>
+	<description>Demo App with Push and Messaging technologies</description>
 
 	<properties>
 		<java.version>1.8</java.version>

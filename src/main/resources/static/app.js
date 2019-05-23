@@ -71,7 +71,6 @@ function getDateFromMilliTs(milliTs) {
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
-        connect();
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });

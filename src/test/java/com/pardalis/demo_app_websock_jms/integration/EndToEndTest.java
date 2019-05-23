@@ -24,6 +24,7 @@ import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -38,13 +39,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class EndToEndTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(EndToEndTest.class);
 
-    private static String WS_ENDPOINT;
     private static final String SUB_FOR_COMMENTS = "/thread/comments";
     private static final String ENDPOINT_FOR_COMMENTING = "/discussion/comment";
 
-    private StompSession stompSession;
     private BlockingQueue<DisplayableCommentDTO> receivedMsgs;
-    private List<Transport> transportList;
 
     @LocalServerPort
     private int localServerPort;
@@ -68,6 +66,7 @@ public class EndToEndTest {
             mongoOperations.dropCollection("accepted_comments");
         }
 
+        receivedMsgs = new LinkedBlockingQueue<>();
         mongoOperations.save(
                 new AcceptedComment(
                         "myid",
@@ -77,16 +76,18 @@ public class EndToEndTest {
                         new Long("1234567890123")),
                 "accepted_comments");
 
-        WS_ENDPOINT = "ws://localhost:" + localServerPort + "/assignment-websocket";
-        receivedMsgs = new LinkedBlockingQueue<>();
-        transportList = Collections.singletonList(new WebSocketTransport(new StandardWebSocketClient()));
+        String WS_ENDPOINT = "ws://localhost:" + localServerPort + "/assignment-websocket";
+        List<Transport> transportList = Collections.singletonList(new WebSocketTransport(new StandardWebSocketClient()));
         WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(transportList));
+
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        stompSession = stompClient.connect(WS_ENDPOINT, new DummySessionHandler()).get(5, TimeUnit.SECONDS);
+        StompSession stompSession = stompClient.connect(WS_ENDPOINT, new DummySessionHandler()).get(5, TimeUnit.SECONDS);
 
         CommentDTO commentDTO = new CommentDTO("mail@mail.com", "ignoreme");
         stompSession.send(ENDPOINT_FOR_COMMENTING, commentDTO);
+
         Thread.sleep(10000);
+
         DisplayableCommentDTO response = receivedMsgs.poll(5, SECONDS);
         Assert.assertEquals("email@mail.com", response.getEmail());
         Assert.assertEquals("ignored", response.getCommentText());

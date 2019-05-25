@@ -26,3 +26,6 @@ hs_err_pid*
 # intellij
 .idea/
 *.iml
+
+#
+.DS_Store

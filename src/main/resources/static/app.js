@@ -9,7 +9,7 @@ function setConnected(connected) {
     else {
         $("#conversation").hide();
     }
-    $("#greetings").html("");
+    $("#comments").html("");
 }
 
 function connect() {
@@ -51,13 +51,13 @@ function disconnect() {
 }
 
 function sendComment() {
-    stompClient.send("/discussion/comment", {}, JSON.stringify({'email': $("#mail").val(), 'comment-text': $("#comment").val()}));
+    stompClient.send("/discussion/comment", {}, "{\"email\": \"" + $("#mail").val() + "\", \"comment-text\": \"" + $("#comment").val() + "\"}");
 }
 
 function showComment(comment) {
     var dt = getDateFromMilliTs(comment["timestamp"]);
 
-    $("#greetings").append("<tr><td>" + dt + "</td><td>" + comment["email"] + " said:</td><td>" + comment["comment-text"] +"</td></tr>");
+    $("#comments").append("<tr><td>" + dt + "</td><td>" + comment["email"] + " said:</td><td>" + comment["comment-text"] +"</td></tr>");
 }
 
 function getDateFromMilliTs(milliTs) {

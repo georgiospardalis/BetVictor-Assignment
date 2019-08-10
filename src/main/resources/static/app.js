@@ -3,18 +3,22 @@ var stompClient = null;
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
+
     if (connected) {
         $("#conversation").show();
     }
     else {
         $("#conversation").hide();
     }
+
     $("#comments").html("");
 }
 
 function connect() {
     var socket = new SockJS('/assignment-websocket');
+
     stompClient = Stomp.over(socket);
+
     stompClient.connect({}, function (frame) {
         setConnected(true);
 
